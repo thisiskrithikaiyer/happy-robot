@@ -1,8 +1,11 @@
+import logging
 from flask import Blueprint, request, jsonify, abort
 from models import db, Load, Offer
 from utils import verify_carrier
 from functools import wraps
 from config import Config
+
+logging.basicConfig(level=logging.INFO)
 
 api = Blueprint('api', __name__)
 
@@ -17,6 +20,7 @@ def require_api_key(f):
 @api.route('/loads', methods=['GET'])
 @require_api_key
 def get_loads():
+    logging.info(f"[search_loads] params: origin={request.args.get('origin')} destination={request.args.get('destination')} equipment_type={request.args.get('equipment_type')}")
     query = Load.query
     if request.args.get('origin'):
         query = query.filter(Load.origin.ilike(f"%{request.args.get('origin')}%"))
