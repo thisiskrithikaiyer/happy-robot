@@ -113,7 +113,7 @@ def get_metrics():
         Offer.origin, Offer.destination,
         db.func.count(Offer.id).label('calls'),
         db.func.sum(db.case((Offer.outcome == 'agreed', 1), else_=0)).label('booked')
-    ).filter(Offer.origin.isnot(None)).group_by(Offer.origin, Offer.destination).order_by(db.desc('calls')).limit(5).all()
+    ).filter(Offer.origin.isnot(None), Offer.destination.isnot(None), Offer.origin != '', Offer.destination != '').group_by(Offer.origin, Offer.destination).order_by(db.desc('calls')).limit(5).all()
     lanes = [{'lane': f"{r.origin} → {r.destination}", 'calls': r.calls, 'booked': int(r.booked or 0)} for r in lane_data]
 
     # Equipment type stats

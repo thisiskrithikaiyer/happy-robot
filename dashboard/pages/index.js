@@ -142,7 +142,7 @@ export default function Dashboard() {
                     <span className="text-center">Calls</span>
                     <span className="text-right">Booked</span>
                   </div>
-                  {metrics.lanes.map((l) => (
+                  {metrics.lanes.filter(l => l.lane && l.lane.trim() !== '→' && !l.lane.startsWith('null') && !l.lane.startsWith('undefined')).map((l) => (
                     <div key={l.lane} className="grid grid-cols-3 py-2 border-b border-gray-50 last:border-0">
                       <span className="text-sm text-gray-700 font-medium">{l.lane}</span>
                       <span className="text-sm text-gray-500 text-center">{l.calls}</span>
