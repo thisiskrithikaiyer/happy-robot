@@ -61,7 +61,10 @@ def post_offer():
         carrier_mc=data.get('carrier_mc', 'UNKNOWN'),
         negotiated_price=price,
         outcome=data.get('outcome', 'not_agreed'),
-        sentiment=data.get('sentiment', 'neutral')
+        sentiment=data.get('sentiment', 'neutral'),
+        origin=data.get('origin'),
+        destination=data.get('destination'),
+        equipment_type=data.get('equipment_type')
     )
     db.session.add(offer)
     db.session.commit()
@@ -105,20 +108,20 @@ def get_metrics():
     
     unique_carriers = db.session.query(db.func.count(db.distinct(Offer.carrier_mc))).scalar()
 
-    # Popular lanes with call and booking counts
+    # Popular lanes
     lane_data = db.session.query(
-        Load.origin, Load.destination,
+        Offer.origin, Offer.destination,
         db.func.count(Offer.id).label('calls'),
         db.func.sum(db.case((Offer.outcome == 'agreed', 1), else_=0)).label('booked')
-    ).join(Load, Offer.load_id == Load.load_id).group_by(Load.origin, Load.destination).order_by(db.desc('calls')).limit(5).all()
+    ).filter(Offer.origin.isnot(None)).group_by(Offer.origin, Offer.destination).order_by(db.desc('calls')).limit(5).all()
     lanes = [{'lane': f"{r.origin} → {r.destination}", 'calls': r.calls, 'booked': int(r.booked or 0)} for r in lane_data]
 
     # Equipment type stats
     equipment_data = db.session.query(
-        Load.equipment_type,
+        Offer.equipment_type,
         db.func.count(Offer.id).label('calls'),
         db.func.sum(db.case((Offer.outcome == 'agreed', 1), else_=0)).label('booked')
-    ).join(Load, Offer.load_id == Load.load_id).group_by(Load.equipment_type).order_by(db.desc('calls')).all()
+    ).filter(Offer.equipment_type.isnot(None)).group_by(Offer.equipment_type).order_by(db.desc('calls')).all()
     equipment = [{'type': r.equipment_type, 'calls': r.calls, 'booked': int(r.booked or 0)} for r in equipment_data]
 
     return jsonify({

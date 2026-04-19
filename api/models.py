@@ -24,6 +24,9 @@ class Offer(db.Model):
     load_id = db.Column(db.String(50), nullable=False)
     carrier_mc = db.Column(db.String(20), nullable=False)
     negotiated_price = db.Column(db.Float, nullable=True)
-    outcome = db.Column(db.String(20), nullable=False)  # agreed, not_agreed
-    sentiment = db.Column(db.String(20), nullable=False)  # positive, negative, neutral
+    outcome = db.Column(db.String(20), nullable=False)
+    sentiment = db.Column(db.String(20), nullable=False)
+    origin = db.Column(db.String(100), nullable=True)
+    destination = db.Column(db.String(100), nullable=True)
+    equipment_type = db.Column(db.String(50), nullable=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
