@@ -51,12 +51,17 @@ def get_loads():
 def post_offer():
     data = request.json
     import uuid
+    price = data.get('negotiated_price')
+    try:
+        price = float(price) if price else None
+    except (ValueError, TypeError):
+        price = None
     offer = Offer(
         load_id=data.get('load_id') or str(uuid.uuid4())[:8],
-        carrier_mc=data['carrier_mc'],
-        negotiated_price=data.get('negotiated_price'),
-        outcome=data['outcome'],
-        sentiment=data['sentiment']
+        carrier_mc=data.get('carrier_mc', 'UNKNOWN'),
+        negotiated_price=price,
+        outcome=data.get('outcome', 'not_agreed'),
+        sentiment=data.get('sentiment', 'neutral')
     )
     db.session.add(offer)
     db.session.commit()
