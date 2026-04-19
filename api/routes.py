@@ -76,6 +76,13 @@ def verify():
     eligible = verify_carrier(mc)
     return jsonify({'eligible': eligible})
 
+@api.route('/offers', methods=['DELETE'])
+@require_api_key
+def clear_offers():
+    Offer.query.delete()
+    db.session.commit()
+    return jsonify({'message': 'All offers cleared'})
+
 @api.route('/metrics', methods=['GET'])
 @require_api_key
 def get_metrics():
