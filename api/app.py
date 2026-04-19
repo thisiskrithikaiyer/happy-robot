@@ -15,6 +15,10 @@ app.register_blueprint(api, url_prefix='/api')
 
 with app.app_context():
     db.create_all()
+    from models import Load
+    if Load.query.count() == 0:
+        from create_sample_data import create_sample_loads
+        create_sample_loads()
 
 if __name__ == '__main__':
     app.run(debug=True)
