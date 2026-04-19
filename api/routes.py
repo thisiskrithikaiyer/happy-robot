@@ -50,8 +50,9 @@ def get_loads():
 @require_api_key
 def post_offer():
     data = request.json
+    import uuid
     offer = Offer(
-        load_id=data['load_id'],
+        load_id=data.get('load_id') or str(uuid.uuid4())[:8],
         carrier_mc=data['carrier_mc'],
         negotiated_price=data.get('negotiated_price'),
         outcome=data['outcome'],
