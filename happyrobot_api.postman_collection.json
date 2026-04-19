@@ -1,0 +1,99 @@
+{
+  "info": {
+    "name": "HappyRobot API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "cdc33e44d693a3a58451898d4ec9df862c65b954",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Get Loads",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/loads",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "5000",
+          "path": ["api", "loads"]
+        }
+      }
+    },
+    {
+      "name": "Post Offer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"load_id\":\"L001\",\"carrier_mc\":\"MC123\",\"negotiated_price\":2400,\"outcome\":\"agreed\",\"sentiment\":\"positive\"}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/offers",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "5000",
+          "path": ["api", "offers"]
+        }
+      }
+    },
+    {
+      "name": "Get Metrics",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/metrics",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "5000",
+          "path": ["api", "metrics"]
+        }
+      }
+    },
+    {
+      "name": "Verify Carrier",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/verify_carrier?mc=MC123",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "5000",
+          "path": ["api", "verify_carrier"],
+          "query": [
+            {
+              "key": "mc",
+              "value": "MC123"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

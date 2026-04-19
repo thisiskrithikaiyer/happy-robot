@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: happyrobot
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.api
+    environment:
+      DATABASE_URL: postgresql://user:pass@db/happyrobot
+      API_KEY: cdc33e44d693a3a58451898d4ec9df862c65b954
+      FMCSA_KEY: cdc33e44d693a3a58451898d4ec9df862c65b954
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+  dashboard:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dashboard
+    ports:
+      - "8080:80"
+
+volumes:
+  postgres_data:
