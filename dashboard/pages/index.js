@@ -113,16 +113,22 @@ export default function Dashboard() {
                 <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Equipment Type</h3>
                 {metrics.equipment?.length > 0 ? (
                   <div>
-                    <div className="grid grid-cols-3 text-xs text-gray-400 pb-2 border-b border-gray-100 mb-2">
+                    <div className="grid grid-cols-6 text-xs text-gray-400 pb-2 border-b border-gray-100 mb-2">
                       <span>Type</span>
                       <span className="text-center">Calls</span>
-                      <span className="text-right">Booked</span>
+                      <span className="text-center">Booked</span>
+                      <span className="text-center">Min Price</span>
+                      <span className="text-center">Max Price</span>
+                      <span className="text-right">Avg Price</span>
                     </div>
                     {metrics.equipment.map((e) => (
-                      <div key={e.type} className="grid grid-cols-3 py-2 border-b border-gray-50 last:border-0">
+                      <div key={e.type} className="grid grid-cols-6 py-2 border-b border-gray-50 last:border-0">
                         <span className="text-sm text-gray-700">{e.type}</span>
                         <span className="text-sm text-gray-500 text-center">{e.calls}</span>
-                        <span className="text-sm font-semibold text-gray-900 text-right">{e.booked}</span>
+                        <span className="text-sm font-semibold text-gray-900 text-center">{e.booked}</span>
+                        <span className="text-sm text-gray-500 text-center">{e.min_price != null ? `$${e.min_price.toLocaleString()}` : '—'}</span>
+                        <span className="text-sm text-gray-500 text-center">{e.max_price != null ? `$${e.max_price.toLocaleString()}` : '—'}</span>
+                        <span className="text-sm text-gray-500 text-right">{e.avg_price != null ? `$${e.avg_price.toLocaleString(undefined, {maximumFractionDigits: 0})}` : '—'}</span>
                       </div>
                     ))}
                   </div>

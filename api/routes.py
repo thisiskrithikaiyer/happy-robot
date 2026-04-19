@@ -120,9 +120,15 @@ def get_metrics():
     equipment_data = db.session.query(
         Offer.equipment_type,
         db.func.count(Offer.id).label('calls'),
-        db.func.sum(db.case((Offer.outcome == 'agreed', 1), else_=0)).label('booked')
+        db.func.sum(db.case((Offer.outcome == 'agreed', 1), else_=0)).label('booked'),
+        db.func.min(db.case((Offer.outcome == 'agreed', Offer.negotiated_price), else_=None)).label('min_price'),
+        db.func.max(db.case((Offer.outcome == 'agreed', Offer.negotiated_price), else_=None)).label('max_price'),
+        db.func.avg(db.case((Offer.outcome == 'agreed', Offer.negotiated_price), else_=None)).label('avg_price')
     ).filter(Offer.equipment_type.isnot(None)).group_by(Offer.equipment_type).order_by(db.desc('calls')).all()
-    equipment = [{'type': r.equipment_type, 'calls': r.calls, 'booked': int(r.booked or 0)} for r in equipment_data]
+    equipment = [{'type': r.equipment_type, 'calls': r.calls, 'booked': int(r.booked or 0),
+                  'min_price': float(r.min_price) if r.min_price is not None else None,
+                  'max_price': float(r.max_price) if r.max_price is not None else None,
+                  'avg_price': float(r.avg_price) if r.avg_price is not None else None} for r in equipment_data]
 
     return jsonify({
         'total_calls': total_calls,
