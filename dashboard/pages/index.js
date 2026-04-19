@@ -112,18 +112,17 @@ export default function Dashboard() {
               <div className="bg-white rounded-xl border border-gray-200 p-6">
                 <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Equipment Type</h3>
                 {metrics.equipment?.length > 0 ? (
-                  <div className="space-y-3">
-                    <div className="flex justify-between text-xs text-gray-400 mb-1">
+                  <div>
+                    <div className="grid grid-cols-3 text-xs text-gray-400 pb-2 border-b border-gray-100 mb-2">
                       <span>Type</span>
-                      <span className="flex gap-6"><span>Calls</span><span>Booked</span></span>
+                      <span className="text-center">Calls</span>
+                      <span className="text-right">Booked</span>
                     </div>
                     {metrics.equipment.map((e) => (
-                      <div key={e.type} className="flex justify-between items-center">
+                      <div key={e.type} className="grid grid-cols-3 py-2 border-b border-gray-50 last:border-0">
                         <span className="text-sm text-gray-700">{e.type}</span>
-                        <span className="flex gap-6 text-sm">
-                          <span className="text-gray-500">{e.calls}</span>
-                          <span className="font-semibold text-gray-900">{e.booked}</span>
-                        </span>
+                        <span className="text-sm text-gray-500 text-center">{e.calls}</span>
+                        <span className="text-sm font-semibold text-gray-900 text-right">{e.booked}</span>
                       </div>
                     ))}
                   </div>
@@ -137,18 +136,17 @@ export default function Dashboard() {
             <div className="mt-5 bg-white rounded-xl border border-gray-200 p-6">
               <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Popular Lanes</h3>
               {metrics.lanes?.length > 0 ? (
-                <div className="space-y-3">
-                  <div className="flex justify-between text-xs text-gray-400 mb-1">
+                <div>
+                  <div className="grid grid-cols-3 text-xs text-gray-400 pb-2 border-b border-gray-100 mb-2">
                     <span>Lane</span>
-                    <span className="flex gap-10"><span>Calls</span><span>Booked</span></span>
+                    <span className="text-center">Calls</span>
+                    <span className="text-right">Booked</span>
                   </div>
                   {metrics.lanes.map((l) => (
-                    <div key={l.lane} className="flex justify-between items-center">
+                    <div key={l.lane} className="grid grid-cols-3 py-2 border-b border-gray-50 last:border-0">
                       <span className="text-sm text-gray-700 font-medium">{l.lane}</span>
-                      <span className="flex gap-10 text-sm">
-                        <span className="text-gray-500">{l.calls}</span>
-                        <span className="font-semibold text-gray-900">{l.booked}</span>
-                      </span>
+                      <span className="text-sm text-gray-500 text-center">{l.calls}</span>
+                      <span className="text-sm font-semibold text-gray-900 text-right">{l.booked}</span>
                     </div>
                   ))}
                 </div>
