@@ -84,25 +84,6 @@ export default function Dashboard() {
 
             {/* Bottom Row */}
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-5">
-              {/* Top Loads */}
-              <div className="bg-white rounded-xl border border-gray-200 p-6">
-                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Top Loads by Call Volume</h3>
-                {metrics.top_loads?.length > 0 ? (
-                  <div className="space-y-3">
-                    {metrics.top_loads.map((l) => (
-                      <div key={l.load_id} className="flex justify-between items-center">
-                        <span className="text-sm text-gray-700 font-medium">{l.load_id}</span>
-                        <span className="text-sm font-semibold text-gray-900 bg-gray-100 px-3 py-1 rounded-md">
-                          {l.calls} {l.calls === 1 ? 'call' : 'calls'}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-gray-400 text-center py-8">No data yet</p>
-                )}
-              </div>
-
               {/* Sentiment */}
               <div className="bg-white rounded-xl border border-gray-200 p-6">
                 <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Carrier Sentiment</h3>
@@ -126,6 +107,54 @@ export default function Dashboard() {
                   <p className="text-sm text-gray-400 text-center py-8">No data yet</p>
                 )}
               </div>
+
+              {/* Equipment */}
+              <div className="bg-white rounded-xl border border-gray-200 p-6">
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Equipment Type</h3>
+                {metrics.equipment?.length > 0 ? (
+                  <div className="space-y-3">
+                    <div className="flex justify-between text-xs text-gray-400 mb-1">
+                      <span>Type</span>
+                      <span className="flex gap-6"><span>Calls</span><span>Booked</span></span>
+                    </div>
+                    {metrics.equipment.map((e) => (
+                      <div key={e.type} className="flex justify-between items-center">
+                        <span className="text-sm text-gray-700">{e.type}</span>
+                        <span className="flex gap-6 text-sm">
+                          <span className="text-gray-500">{e.calls}</span>
+                          <span className="font-semibold text-gray-900">{e.booked}</span>
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-400 text-center py-8">No data yet</p>
+                )}
+              </div>
+            </div>
+
+            {/* Popular Lanes */}
+            <div className="mt-5 bg-white rounded-xl border border-gray-200 p-6">
+              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Popular Lanes</h3>
+              {metrics.lanes?.length > 0 ? (
+                <div className="space-y-3">
+                  <div className="flex justify-between text-xs text-gray-400 mb-1">
+                    <span>Lane</span>
+                    <span className="flex gap-10"><span>Calls</span><span>Booked</span></span>
+                  </div>
+                  {metrics.lanes.map((l) => (
+                    <div key={l.lane} className="flex justify-between items-center">
+                      <span className="text-sm text-gray-700 font-medium">{l.lane}</span>
+                      <span className="flex gap-10 text-sm">
+                        <span className="text-gray-500">{l.calls}</span>
+                        <span className="font-semibold text-gray-900">{l.booked}</span>
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-gray-400 text-center py-8">No data yet</p>
+              )}
             </div>
           </>
         ) : null}
